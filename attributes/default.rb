@@ -18,4 +18,4 @@
 # limitations under the License.
 #
 
-# Set meaningful node attributes here
+default['denyhosts']['allowed_hosts'] = ['127.0.0.1', '10.0.2.*']

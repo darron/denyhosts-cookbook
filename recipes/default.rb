@@ -18,4 +18,35 @@
 # limitations under the License.
 #
 
-# Install/configure something here
+directory '/var/lib/denyhosts/' do
+  owner 'root'
+  group 'root'
+  mode 00755
+  action :create
+end
+
+# It's important that this is installed before the package is installed.
+# If not, it locks you out on a TestKitchen run.
+template '/var/lib/denyhosts/allowed-hosts' do
+  source 'allowed-hosts.erb'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  action :create
+end
+
+package 'denyhosts'
+
+service 'denyhosts' do
+  supports :restart => true # rubocop:disable HashSyntax
+  action [:enable, :start]
+end
+
+file '/etc/denyhosts.conf' do
+  owner  'root'
+  group  'root'
+  action :create
+  notifies :restart, 'service[denyhosts]', :immediately
+end
+
+

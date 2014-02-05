@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'denyhosts::default' do
   let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
 
-  it 'does something' do
-    pending 'Replace this with meaningful tests'
+  it 'installs denyhosts' do
+    expect(chef_run).to install_package('denyhosts')
   end
 end
